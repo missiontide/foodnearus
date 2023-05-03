@@ -6,10 +6,6 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-PG_HOST = os.environ.get('PG_HOST')
-PG_USERNAME = os.environ.get('PG_USERNAME')
-PG_PASSWORD = os.environ.get('PG_PASSWORD')
-
 
 # Set up grid search parameters
 beaverton_lat = 45.4871
@@ -27,3 +23,21 @@ for lat in latitudes:
 
 print(locations)
 print(len(locations))
+
+# Connect to the Postgres database
+try:
+    conn = psycopg2.connect(
+        host=os.environ.get('PG_HOST'),
+        port=os.environ.get('PG_PORT'),
+        database=os.environ.get('PG_DATABASE'),
+        user=os.environ.get('PG_USERNAME'),
+        password=os.environ.get('PG_PASSWORD')
+    )
+    cur = conn.cursor()
+except:
+    print("Unable to connect to the database")
+
+cur.execute(
+    "CREATE TABLE restaurant();"
+)
+conn.commit()
